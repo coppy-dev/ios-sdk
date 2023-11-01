@@ -10,13 +10,13 @@ Coppy SDK for iOS consists of two major parts:
 1. **Swift UI framework**. At the moment, Coppy only works with projects that are built with the Swift UI framework. Swift UI provides us with all necessary abstractions that allow us to efficiently update app copy in the runtime.
 
 2. **Coppy content key**. The content key tells the Coppy plugin and runtime SDK how to get your specific content. To get a content key, go to your [Coppy profile page](https://app.coppy.app/profile) and select a specific team, which content you want to use in the app. The content key will be right below the team name.
-
+<img src="https://github.com/coppy-dev/ios-sdk/assets/112951687/e5b10055-1e3f-42b2-85cc-b131add1d3dc" width="1280" alt="Content key" />
 
 ## Getting started
 
-### Add plugin
+### Add Coppy config plist
 
-To get started with Coppy SDK, you need to add a Coppy plugin first. Add it to the plugins section in your app `build.gradle` file. Then, add the content key to the Coppy plugin config:
+To get started with Coppy SDK, you need to add a Coppy.plist file into your target's directory. Add a `ContentKey` field with your content key.
 
 ```diff
 plugins {
