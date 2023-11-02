@@ -60,7 +60,7 @@ Then add a bash script, that calls the Coppy CLI tool, and generates content:
 coppy generate "$SRCROOT/$TARGET_NAME/Coppy.plist" "$SRCROOT/$TARGET_NAME/generated/Coppy.swift"
 ```
 <picture width="1280" role="presentation">
-    <source media="(prefers-color-scheme: dark)" srcset="[https://github.com/coppy-dev/ios-sdk/assets/112951687/1cf42bcd-44d4-4286-8004-e914b0ef7c36](https://github.com/coppy-dev/ios-sdk/assets/112951687/b5d2187f-aa56-495e-8365-4a4f6a869c2e)" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/b5d2187f-aa56-495e-8365-4a4f6a869c2e" />
     <source media="(prefers-color-scheme: light)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/d234d758-0454-4735-88d4-ca2da49a65d8" />
     <img  src="https://github.com/coppy-dev/ios-sdk/assets/112951687/d234d758-0454-4735-88d4-ca2da49a65d8" />
 </picture>
@@ -70,87 +70,68 @@ Optionally, you can add a class name prefix, if you want the generated classes t
 coppy generate "$SRCROOT/$TARGET_NAME/Coppy.plist" "$SRCROOT/$TARGET_NAME/generated/Coppy.swift" $TARGET_NAME
 ```
 
-Make sure you turned off the user script sandboxing in your target build settings. Otherwise, you might get errors, that the Coppy CLI does not have permissions to read config file (`Coppy.plist`).
+Make sure you turn off the user script sandboxing in your target build settings. Otherwise, you might get errors that the Coppy CLI does not have permission to read the config file (`Coppy.plist`).
 
+<picture width="1280" role="presentation">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/daf9945a-7dc2-4a2c-b552-9cba4dc36b09" />
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/95ee4c3b-c24e-43c6-af5c-197bef8866cc" />
+    <img  src="https://github.com/coppy-dev/ios-sdk/assets/112951687/95ee4c3b-c24e-43c6-af5c-197bef8866cc" />
+</picture>
 
-### Using copy at runtime
+### 4. Add generated classes to the project
+After you've added a coppy generation phase to your build process, run a build command and let the Coppy CLI generate runtime classes. Then, add the generated file to the project, so the Xcode can index its content and provide you with code completion and type checking.
 
-To use coppy in your app, you need to first initialize it in your main activity:
+### 5. Add coppy to your app code
+
+To use coppy in your app, you need to first initialize it in your `App` class and att it to your views hierarchy
 
 ```diff
-+import app.coppy.Coppy
-+import app.coppy.generatedCoppy.CoppyContent
+import SwiftUI
++import Coppy
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-+       Coppy.initialize(applicationContext, CoppyContent::class.java)
-
-        setContent {
-            App()
+@main
+struct LemiApp: App {
++   init() {
++       Coppy.initialize(CoppyContent.self)
++   }
+    var body: some Scene {
+        WindowGroup {
+-           ContentView()
++           ContentView().environmentObject(Coppy.content(LemiCoppyContent.self))
         }
     }
+
 }
 ```
 
-Then, you can use coppy content in your component:
+Then, you can use coppy content in your components:
 
 ```diff
-+import app.coppy.Coppy
-+import app.coppy.generatedCoppy.CoppyContent
+import SwiftUI
 
-@Preview(showBackground = true)
-@Composable
-fun IntroScreen (
-    onClick: () -> Unit = {}
-) {
-+    val intro = Coppy.useContent(CoppyContent::class.java).collectAsState().value.features.intro
-    Column(
-        Modifier
-            .fillMaxWidth(1f)
-            .fillMaxHeight(1f), verticalArrangement = Arrangement.SpaceBetween) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
--            Text(text = "Welcome Back!", fontSize = 30.sp)
-+            Text(text = intro.title, fontSize = 30.sp)
--            Text(text = "Happy to see you again! Here are some things you've might missed", fontSize = 16.sp)
-+            Text(text = intro.body, fontSize = 16.sp)
-
-        }
-        Column(Modifier.padding(16.dp, 12.dp)) {
-            Button(onClick = onClick, modifier = Modifier
-                .fillMaxWidth()
-                .height(44.dp)) {
--                Text(text = "Get Started")
-+                Text(text = intro.cta)
+struct ContentView: View {
+    @EnvironmentObject var content: LemiCoppyContent
+    
+    var body: some View {
+        NavigationView {
+            VStack(alignment: .leading, spacing: 16) {
+                Card(
+-                   title: "Cover+",
+-                   text: "Overdraft with no fees! Your Cover+ base starts at $60 and can reach $400 over time",
+-                   cta: "Get Cover+
++                   title: content.features.coverMe.cta.title,
++                   text: content.features.coverMe.cta.body,
++                   cta: content.features.coverMe.cta.cta
+                )
             }
+            .padding()
         }
+        
     }
 }
 ```
 
-## Configuration
-
-At the moment, there are a few things you can configure in how Coppy SDK works:
-
-1. **Update interval (`updateInterval`)** — interval in minutes for how often Coppy SDK should check for the new content version. By default, it is 30 minutes.t
-
-2. **Update type (`updateType`)** — defines how Coppy will update the app copy in the runtime. Note that it will still check for copy updates within specified intervals (`updateInterval`). But, depending on the update type setting, it might not apply those changes immediately. Instead, it will store them locally and will use them for the next copy update. By default (if option is not set), Coppy will check only update copy when app is hard-reloaded (i.e user closes the app, and opens it again).
-   - `background` — Coppy will update the copy when the app is backgrounded. Note that because Compose UI does not run in the background, the actual copy update will happen when the app comes back from the background into the foreground.
-   - `foreground` — Coppy will update the copy in the app as soon as it gets the new version of content from the server.
-
-```diff
-plugins {
-    id("com.android.application")
-    id("app.coppy") version("1.0.0")
-}
-
-coppy {
-    contentKey = "<YOUR_CONTENT_KEY>"
-+    updateInterval = 15
-+    updateType = "foreground"
-}
-```
+Now, the Coppy SDK will check for content updates when the app is going to the background. Once you publish a newer version of your content, Coppy SDK will download it and apply the changes to your app screens. 
 
 ## Ejecting
 
