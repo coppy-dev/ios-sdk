@@ -10,8 +10,11 @@ Coppy SDK for iOS consists of two major parts:
 1. **Swift UI framework**. At the moment, Coppy only works with projects that are built with the Swift UI framework. Swift UI provides us with all necessary abstractions that allow us to efficiently update app copy in the runtime.
 
 2. **Coppy content key**. The content key tells the Coppy plugin and runtime SDK how to get your specific content. To get a content key, go to your [Coppy profile page](https://app.coppy.app/profile) and select a specific team, which content you want to use in the app. The content key will be right below the team name.
-<img src="https://github.com/coppy-dev/ios-sdk/assets/112951687/48cccfe0-2e15-4910-876e-50acbd3794f7" width="1280" role="presentation" />
-
+<picture width="1280" role="presentation">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/0b24e8a0-aa18-4905-bb9e-aa4f63a588e6" />
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/6423b3bb-c5d4-4478-9a60-39bf3216e32c" />
+    <img src="https://github.com/coppy-dev/ios-sdk/assets/112951687/6423b3bb-c5d4-4478-9a60-39bf3216e32c" />
+</picture>
 
 ## Getting started
 
@@ -81,7 +84,11 @@ Make sure you turn off the user script sandboxing in your target build settings.
 ### 4. Add generated classes to the project
 After you've added a coppy generation phase to your build process, run a build command and let the Coppy CLI generate runtime classes. Then, add the generated file to the project, so the Xcode can index its content and provide you with code completion and type checking.
 
-### 5. Add coppy to your app code
+### 5. Add Coppy SDK to your project
+
+Add Coppy SDK using link to [this same repository](https://github.com/coppy-dev/ios-sdk.git)
+
+### 6. Add coppy to your app code
 
 To use coppy in your app, you need to first initialize it in your `App` class and att it to your views hierarchy
 
