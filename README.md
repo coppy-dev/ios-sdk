@@ -11,9 +11,9 @@ Coppy SDK for iOS consists of two major parts:
 
 2. **Coppy content key**. The content key tells the Coppy plugin and runtime SDK how to get your specific content. To get a content key, go to your [Coppy profile page](https://app.coppy.app/profile) and select a specific team, which content you want to use in the app. The content key will be right below the team name.
 <picture width="1280" role="presentation">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/0b24e8a0-aa18-4905-bb9e-aa4f63a588e6" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/6423b3bb-c5d4-4478-9a60-39bf3216e32c" />
-    <img src="https://github.com/coppy-dev/ios-sdk/assets/112951687/6423b3bb-c5d4-4478-9a60-39bf3216e32c" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://coppy.app/images/docs/content-key-dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="https://coppy.app/images/docs/content-key.png" />
+    <img src="https://coppy.app/images/docs/content-key.png" />
 </picture>
 
 ## Getting started
@@ -49,9 +49,9 @@ Next, you need to add a `Coppy.plist` file into your target's directory. Add a `
 +</plist>
 ```
 <picture width="1280" role="presentation">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/1cf42bcd-44d4-4286-8004-e914b0ef7c36" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/930c1470-6830-41b8-a801-4a30f4486e66" />
-    <img src="https://github.com/coppy-dev/ios-sdk/assets/112951687/930c1470-6830-41b8-a801-4a30f4486e66" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://coppy.app/images/docs/coppy-plist-dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="https://coppy.app/images/docs/coppy-plist.png" />
+    <img src="https://coppy.app/images/docs/coppy-plist.png" />
 </picture>
 
 ### 3. Add script phase to the build process
@@ -63,9 +63,9 @@ Then add a bash script, that calls the Coppy CLI tool, and generates content:
 coppy generate "$SRCROOT/$TARGET_NAME/Coppy.plist" "$SRCROOT/$TARGET_NAME/generated/Coppy.swift"
 ```
 <picture width="1280" role="presentation">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/b5d2187f-aa56-495e-8365-4a4f6a869c2e" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/d234d758-0454-4735-88d4-ca2da49a65d8" />
-    <img  src="https://github.com/coppy-dev/ios-sdk/assets/112951687/d234d758-0454-4735-88d4-ca2da49a65d8" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://coppy.app/images/docs/script-dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="https://coppy.app/images/docs/script.png" />
+    <img src="https://coppy.app/images/docs/script.png" />
 </picture>
 
 Optionally, you can add a class name prefix, if you want the generated classes to have more specific names. To do that, pass the third argument to the Coppy CLI. Target name might be a good option:
@@ -76,9 +76,9 @@ coppy generate "$SRCROOT/$TARGET_NAME/Coppy.plist" "$SRCROOT/$TARGET_NAME/genera
 Make sure you turn off the user script sandboxing in your target build settings. Otherwise, you might get errors that the Coppy CLI does not have permission to read the config file (`Coppy.plist`).
 
 <picture width="1280" role="presentation">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/daf9945a-7dc2-4a2c-b552-9cba4dc36b09" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/coppy-dev/ios-sdk/assets/112951687/95ee4c3b-c24e-43c6-af5c-197bef8866cc" />
-    <img  src="https://github.com/coppy-dev/ios-sdk/assets/112951687/95ee4c3b-c24e-43c6-af5c-197bef8866cc" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://coppy.app/images/docs/sandbox-dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="https://coppy.app/images/docs/sandbox.png" />
+    <img src="https://coppy.app/images/docs/sandbox.png" />
 </picture>
 
 ### 4. Add generated classes to the project
